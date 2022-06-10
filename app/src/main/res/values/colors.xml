@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="soju_green">#5bbb5f</color>
+    <color name="beer_yellow">#f0c912</color>
+    <color name="makgeolli_beige">#ede1d7</color>
+    <color name="cass_blue">#023279</color>
+    <color name="beer_orange">#d55910</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

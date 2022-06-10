@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:columnCount="2" >
+
+        <TextView
+            android:text="주종"
+            android:textSize="20sp" />
+        <EditText
+            android:id="@+id/alc_type"
+            android:layout_gravity="fill_horizontal" />
+        <TextView
+            android:text="술 이름"
+            android:textSize="20sp" />
+        <EditText
+            android:id="@+id/alc_name"
+            android:layout_gravity="fill_horizontal" />
+        <TextView
+            android:text="한 병(ml)"
+            android:textSize="20sp" />
+        <EditText
+            android:id="@+id/bottle"
+            android:layout_gravity="fill_horizontal" />
+        <TextView
+            android:text="한 잔(ml)"
+            android:textSize="20sp" />
+        <EditText
+            android:id="@+id/cup"
+            android:layout_gravity="fill_horizontal" />
+        <TextView
+            android:text="도수(도): "
+            android:textSize="20sp" />
+        <EditText
+            android:id="@+id/percent"
+            android:layout_gravity="fill_horizontal" />
+    </GridLayout>
+    <Button
+        android:id="@+id/submit"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:textSize="20sp"
+        android:text="등록"
+    />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="12" />
+</LinearLayout>
