@@ -1,10 +1,14 @@
 package com.example.lastproj_mp
 
+import android.app.Activity
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +21,34 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // get resources
+        val res  = getResources()
+        val alc_type_arr = res.getStringArray(R.array.alc_type)
+        var selectedAlcType = alc_type_arr[0]
+
+        val spinner: Spinner = binding.inputItemView.alcType
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.alc_type,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+        spinner.onItemSelectedListener = object :  Activity(), AdapterView.OnItemSelectedListener ,
+            AdapterView.OnItemClickListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
+                Log.d("TAG", "${pos}이 선택됨: ${alc_type_arr[pos]}")
+                selectedAlcType = alc_type_arr[pos]
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
+        }
+
+
+
+
         var db = dbHelper.writableDatabase
         val entryArr = mutableListOf(
             MyElement("소주", "참이슬 오리지널", 360, 48, 20.1),
@@ -47,14 +79,15 @@ class MainActivity : AppCompatActivity() {
         val adapter = MyAdapter(getList)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
-        binding.submit.setOnClickListener{
+        binding.inputItemView.submit.setOnClickListener{
+            if(!checkAllFilled()) return@setOnClickListener;
             db = dbHelper.writableDatabase
             val elem = MyElement(
-                binding.alcType.text.toString(),
-                binding.alcName.text.toString(),
-                binding.bottle.text.toString().toInt(),
-                binding.cup.text.toString().toInt(),
-                binding.percent.text.toString().toDouble(),
+                selectedAlcType,
+                binding.inputItemView.alcName.text.toString(),
+                binding.inputItemView.bottle.text.toString().toInt(),
+                binding.inputItemView.cup.text.toString().toInt(),
+                binding.inputItemView.percent.text.toString().toDouble(),
             )
             val values = ContentValues().apply{
                 put(MyDbHelper.MyDbHelper.MyEntry.alcType, elem.alcType)
@@ -87,5 +120,21 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    fun checkAllFilled(): Boolean {
+        if(binding.inputItemView.alcName.text.isBlank()){
+            Toast.makeText(applicationContext,"술 이름이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show()
+            return false
+        } else if(binding.inputItemView.bottle.text.isBlank()){
+            Toast.makeText(applicationContext,"1병의 용량이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show()
+            return false
+        } else if(binding.inputItemView.cup.text.isBlank()){
+            Toast.makeText(applicationContext,"1잔의 용량이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show()
+            return false
+        } else if(binding.inputItemView.percent.text.isBlank()){
+            Toast.makeText(applicationContext,"도수가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
 }
 
