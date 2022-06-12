@@ -7,15 +7,17 @@ interface HistoryDao {
     @Query("SELECT * FROM history")
     fun getAll(): List<History>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg history: History)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(history: History)
 
     @Delete
     fun delete(history: History)
 
+    @Query("DELETE FROM history WHERE hid = :hid")
+    fun deleteById(hid: Int): Int
 }
 
 @Dao
@@ -23,13 +25,19 @@ interface AlcoholDao {
     @Query("SELECT * FROM alcohol")
     fun getAll(): List<Alcohol>
 
-    @Insert
-    fun insertAll(vararg alcohol: Alcohol)
+    @Query("SELECT alcName FROM alcohol")
+    fun getNameAll(): List<String>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(alcohol: Alcohol)
 
     @Delete
     fun delete(alcohol: Alcohol)
 
     @Query("SELECT percent FROM alcohol WHERE alcName LIKE :sAlcName")
     abstract fun getPercentFromAlcType(sAlcName: String): Byte
+
+    @Query("DELETE FROM alcohol WHERE alcName = :alcName")
+    fun deleteByName(alcName: String): Int
 
 }

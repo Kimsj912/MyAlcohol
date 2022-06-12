@@ -8,7 +8,7 @@ data class History(
     @ColumnInfo val date: String,
     @ColumnInfo val alcName: String,
     @ColumnInfo val drunk: Int,
-    @ColumnInfo val alcAmount: Double,
+    @ColumnInfo val alcAmount: String,
 )
 
 @Entity

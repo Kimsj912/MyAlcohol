@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lastproj_mp.databinding.ListAlcBinding
 
-class MyAdapter(private var dataSet: MutableList<MyElement>):RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAlcoholAdapter(private var dataSet: List<Alcohol>):RecyclerView.Adapter<MyAlcoholAdapter.MyViewHolder>() {
     class MyViewHolder(val binding: ListAlcBinding) : RecyclerView.ViewHolder(binding.root)
     override fun getItemCount() = dataSet.size
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(ListAlcBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
-    fun setList(newList: MutableList<MyElement>){
+    fun setList(newList: MutableList<Alcohol>){
         this.dataSet = newList
     }
-    fun getElement(pos: Int): MyElement{
+    fun getElement(pos: Int): Alcohol{
         return dataSet[pos]
     }
     private lateinit var itemClickListener : OnItemClickListener

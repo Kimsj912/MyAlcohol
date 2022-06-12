@@ -32,6 +32,9 @@ class MyHistoryAdapter(private var dataSet: MutableList<History>):RecyclerView.A
         binding.date.text = dataSet[position].date
         binding.alcName.text = dataSet[position].alcName
         binding.drunk.text = dataSet[position].drunk.toString()+" ml"
-        binding.alcAmount.text = dataSet[position].alcAmount.toString()
+        binding.alcAmount.text = dataSet[position].alcAmount
+        binding.elem.setOnClickListener{
+            itemClickListener.onClick(it, position)
+        }
     }
 }

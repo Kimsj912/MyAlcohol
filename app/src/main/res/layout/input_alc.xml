@@ -70,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:inputType="number"
             android:layout_gravity="fill_horizontal"  />
 
     </LinearLayout>
@@ -91,6 +92,7 @@
             android:id="@+id/cup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:inputType="number"
             android:layout_weight="1"
             android:layout_gravity="fill_horizontal"  />
 
@@ -113,6 +115,7 @@
             android:id="@+id/percent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:inputType="numberDecimal"
             android:layout_weight="1"
             android:layout_gravity="fill_horizontal"  />
 

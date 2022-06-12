@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
+    android:background="@color/white"
     android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        app:srcCompat="@drawable/logo" />
+
+    <Button
+        android:text="술 기록하기"
+        android:id="@+id/move_to_add_history_btn"
+        android:layout_width="match_parent"
+        android:backgroundTint="@color/soju_green"
+        android:textColor="@color/white"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:text="술 기록보기"
+        android:id="@+id/move_to_show_history_btn"
+        android:layout_width="match_parent"
+        android:backgroundTint="@color/soju_green"
+        android:textColor="@color/white"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <Button
         android:text="술 추가"
         android:id="@+id/move_to_edit_alc_btn"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
-    <Button
-        android:text="술 기록보기"
-        android:id="@+id/move_to_show_history_btn"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-    <Button
-        android:text="술 기록하기"
-        android:id="@+id/move_to_add_history_btn"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:backgroundTint="@color/soju_green"
+        android:textColor="@color/white"
         android:layout_weight="1" />
 
 </LinearLayout>

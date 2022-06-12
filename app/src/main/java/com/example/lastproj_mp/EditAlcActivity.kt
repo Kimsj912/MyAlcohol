@@ -1,9 +1,6 @@
 package com.example.lastproj_mp
 
 import android.app.Activity
-import android.content.ContentValues
-import android.content.Intent
-import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,10 +10,11 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
+import com.example.lastproj_mp.database.AppDatabase
 import com.example.lastproj_mp.databinding.AlcEditViewBinding
 
 class EditAlcActivity : AppCompatActivity() {
-    val dbHelper = MyDbHelper.MyDbHelper(this)
     lateinit var binding: AlcEditViewBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,90 +55,56 @@ class EditAlcActivity : AppCompatActivity() {
             }
         }
 
-
-        var db = dbHelper.writableDatabase
-        val entryArr = mutableListOf(
-            MyElement("소주", "참이슬 오리지널", 360, 48, 20.1),
-            MyElement("소주", "처음처럼 순한", 360, 48, 16.0),
-            MyElement("막걸리", "서울 장수 막걸리", 750, 140, 6.0),
-            MyElement("막걸리", "지평 생 막걸리", 700, 140, 5.0),
-            MyElement("맥주", "카스 프레시", 500, 500, 4.5),
-            MyElement("맥주", "카스 라이트", 500, 500, 4.0),
-            MyElement("맥주", "테라", 500, 500, 4.5),
-            MyElement("맥주", "하이트 엑스트라 콜드", 500, 500, 4.5),
-            MyElement("아메리칸 위스키", "잭다니엘", 375, 30, 40.0),
-            MyElement("진", "핸드릭스 진", 700, 30, 44.0),
-            MyElement("칵테일", "핸드릭스 진 토닉", 700, 30, 44.0),
-        )
-        for (entry in entryArr) {
-            val values = ContentValues().apply {
-                put(MyDbHelper.MyDbHelper.MyEntry.alcType, entry.alcType)
-                put(MyDbHelper.MyDbHelper.MyEntry.alcName, entry.alcName)
-                put(MyDbHelper.MyDbHelper.MyEntry.bottle, entry.bottle)
-                put(MyDbHelper.MyDbHelper.MyEntry.cup, entry.cup)
-                put(MyDbHelper.MyDbHelper.MyEntry.percent, entry.percent)
-            }
-            Log.d("TAG", values.toString())
-            val newRowId = db?.insert(MyDbHelper.MyDbHelper.MyEntry.TABLE_NAME, null, values)
-            Log.d("TAG", newRowId.toString())
-        }
-        val getList = dbHelper.selectAll()
-        val adapter = MyAdapter(getList)
+        // get resources
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "myDatabase"
+        ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
+        val alcoholDao = db.alcoholDao()
+        val getList = alcoholDao.getAll()
+        val adapter = MyAlcoholAdapter(getList as MutableList<Alcohol>)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
+
         binding.inputItemView.submit.setOnClickListener {
             if (!checkAllFilled()) return@setOnClickListener;
-            db = dbHelper.writableDatabase
-            val elem = MyElement(
-                selectedAlcType,
-                binding.inputItemView.alcName.text.toString(),
-                binding.inputItemView.bottle.text.toString().toInt(),
-                binding.inputItemView.cup.text.toString().toInt(),
-                binding.inputItemView.percent.text.toString().toDouble(),
-            )
-            val values = ContentValues().apply {
-                put(MyDbHelper.MyDbHelper.MyEntry.alcType, elem.alcType)
-                put(MyDbHelper.MyDbHelper.MyEntry.alcName, elem.alcName)
-                put(MyDbHelper.MyDbHelper.MyEntry.bottle, elem.bottle)
-                put(MyDbHelper.MyDbHelper.MyEntry.cup, elem.cup)
-                put(MyDbHelper.MyDbHelper.MyEntry.percent, elem.percent)
-            }
-            Log.d("TAG", values.toString())
-            try {
-                val newRowId =
-                    db?.insertOrThrow(MyDbHelper.MyDbHelper.MyEntry.TABLE_NAME, null, values)
-                Log.d("TAG", newRowId.toString())
-            } catch (e: SQLiteConstraintException) {
-                db?.update(
-                    MyDbHelper.MyDbHelper.MyEntry.TABLE_NAME,
-                    values,
-                    "${MyDbHelper.MyDbHelper.MyEntry.alcType} LIKE ?",
-                    arrayOf(elem.alcType)
-                )
-            }
-            val newList = dbHelper.selectAll()
-            adapter.setList(newList)
+            val alcName = binding.inputItemView.alcName.text.toString()
+            val alcType = selectedAlcType
+            val bottle = binding.inputItemView.bottle.text.toString().toInt()
+            val cup = binding.inputItemView.cup.text.toString().toInt()
+            val percent = binding.inputItemView.percent.text.toString().toDouble()
+
+            alcoholDao.insert(Alcohol(alcName,alcType,bottle,cup, percent))
+            Toast.makeText(applicationContext, "${alcName}이 추가되었습니다.", Toast.LENGTH_LONG).show()
+            val newList = alcoholDao.getAll()
+            adapter.setList(newList as MutableList<Alcohol>)
             adapter.notifyDataSetChanged()
-            db.close()
+            binding.recyclerView.adapter = adapter
+
+            binding.inputItemView.alcType.setSelection(0)
+            binding.inputItemView.alcName.text.clear()
+            binding.inputItemView.bottle.text.clear()
+            binding.inputItemView.cup.text.clear()
+            binding.inputItemView.percent.text.clear()
+
         }
-        adapter.setItemClickListener(object : MyAdapter.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-                db = dbHelper.writableDatabase
-                db?.delete(
-                    MyDbHelper.MyDbHelper.MyEntry.TABLE_NAME,
-                    "${MyDbHelper.MyDbHelper.MyEntry.alcName} = ?",
-                    arrayOf(adapter.getElement(position).alcName)
-                )
-                val newList = dbHelper.selectAll()
-                Toast.makeText(
-                    applicationContext,
-                    "${adapter.getElement(position).alcName}이 삭제됨",
-                    Toast.LENGTH_SHORT
-                ).show()
-                adapter.setList(newList)
-                adapter.notifyDataSetChanged()
-            }
-        })
+        try{
+            val getList = alcoholDao.getAll()
+            val adapter = MyAlcoholAdapter(getList as MutableList<Alcohol>)
+            binding.recyclerView.layoutManager = LinearLayoutManager(this)
+            adapter.setItemClickListener(object: MyAlcoholAdapter.OnItemClickListener{
+                override fun onClick(v: View, position: Int) {
+                    alcoholDao.deleteByName(adapter.getElement(position).alcName)
+                    Toast.makeText(applicationContext,"선택한 ${adapter.getElement(position).alcName}이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                    val newList = alcoholDao.getAll()
+                    adapter.setList(newList as MutableList<Alcohol>)
+                    adapter.notifyItemRemoved(position)
+                }
+            })
+            binding.recyclerView.adapter = adapter
+        } catch (e:IllegalStateException){
+            Toast.makeText(this,"아직 아무런 기록이 없습니다!", Toast.LENGTH_LONG).show()
+        }
     }
 
     fun checkAllFilled(): Boolean {
@@ -155,6 +119,15 @@ class EditAlcActivity : AppCompatActivity() {
             return false
         } else if (binding.inputItemView.percent.text.isBlank()) {
             Toast.makeText(applicationContext, "도수가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        try{
+            val bottle = binding.inputItemView.bottle.text.toString().toInt()
+            val cup = binding.inputItemView.cup.text.toString().toInt()
+            val percent = binding.inputItemView.percent.text.toString().toDouble()
+        } catch (e: NumberFormatException){
+            Toast.makeText(applicationContext, "병, 잔, 도수는 숫자로 입력해주세요.", Toast.LENGTH_SHORT).show()
             return false
         }
         return true

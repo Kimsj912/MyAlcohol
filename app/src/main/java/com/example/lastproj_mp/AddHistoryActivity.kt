@@ -34,26 +34,16 @@ class AddHistoryActivity : AppCompatActivity() {
         var selectedDate ="${gc.get(GregorianCalendar.YEAR)}.${gc.get(GregorianCalendar.MONTH)+1}.${gc.get(GregorianCalendar.DAY_OF_MONTH)}"
         val datePicker = binding.date
         datePicker.init(gc.get(GregorianCalendar.YEAR), gc.get(GregorianCalendar.MONTH), gc.get(GregorianCalendar.DAY_OF_MONTH)) {
-            view, year, monthOfYear, dayOfMonth ->
-                val date = "$year/$monthOfYear/$dayOfMonth"
-                Toast.makeText(this, date, Toast.LENGTH_SHORT).show()
-            selectedDate= "${year}.${monthOfYear+1}.${dayOfMonth}"
+            view, year, monthOfYear, dayOfMonth -> selectedDate= "${year}.${monthOfYear+1}.${dayOfMonth}"
         }
 
         // alc_name
-        val res = getResources()
-        val arr = res.getStringArray(R.array.alc_name)
+        val arr: List<String> = alcoholDao.getNameAll()
         var selectedAlcName = arr[0]
 
         val spinner: Spinner = binding.alcName
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.alc_name,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
+        var adapter:ArrayAdapter<String> = ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, arr)
+        spinner.adapter = adapter
         spinner.onItemSelectedListener = object : Activity(), AdapterView.OnItemSelectedListener,
             AdapterView.OnItemClickListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
@@ -75,10 +65,10 @@ class AddHistoryActivity : AppCompatActivity() {
         binding.submit.setOnClickListener{
             val drunk = binding.drunk.text.toString().toInt()
             Log.d("TAG: ", "${selectedAlcName}, ${selectedDate}, ${drunk}, ${alcoholDao.getPercentFromAlcType(selectedAlcName)}")
-            historyDao.insert(History(0,selectedDate,selectedAlcName,drunk, drunk*alcoholDao.getPercentFromAlcType(selectedAlcName)*0.7947))
+            historyDao.insert(History(0,selectedDate,selectedAlcName,drunk, String.format("%.2f",drunk*alcoholDao.getPercentFromAlcType(selectedAlcName)*0.01*0.7947)))
             val getList = historyDao.getAll()
             Log.d("TAG", getList.toString())
-            Toast.makeText(this, "${selectedDate}에 ${selectedAlcName}을 ${drunk}만큼 마셨습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "${selectedDate}에 ${selectedAlcName}을 ${drunk}ml을 마셨습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 }
