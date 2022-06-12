@@ -6,4 +6,16 @@
         <item>막걸리</item>
         <item>와인</item>
     </string-array>
+    <string-array name="alc_name">
+        <item>참이슬 오리지널</item>
+        <item>처음처럼 순한</item>
+        <item>지평 생 막걸리</item>
+        <item>카스 프레시</item>
+        <item>카스 라이트</item>
+        <item>테라</item>
+        <item>하이트 엑스트라 콜드</item>
+        <item>잭다니엘</item>
+        <item>핸드릭스 진</item>
+        <item>핸드릭스 진 토닉</item>
+    </string-array>
 </resources>

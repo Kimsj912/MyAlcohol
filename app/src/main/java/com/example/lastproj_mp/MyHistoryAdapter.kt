@@ -5,17 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lastproj_mp.databinding.ListAlcBinding
+import com.example.lastproj_mp.databinding.ListHistoryBinding
 
-class MyAdapter(private var dataSet: MutableList<MyElement>):RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-    class MyViewHolder(val binding: ListAlcBinding) : RecyclerView.ViewHolder(binding.root)
+class MyHistoryAdapter(private var dataSet: MutableList<History>):RecyclerView.Adapter<MyHistoryAdapter.MyViewHolder>() {
+    class MyViewHolder(val binding: ListHistoryBinding) : RecyclerView.ViewHolder(binding.root)
     override fun getItemCount() = dataSet.size
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(ListAlcBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return MyViewHolder(ListHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
-    fun setList(newList: MutableList<MyElement>){
+    fun setList(newList: MutableList<History>){
         this.dataSet = newList
     }
-    fun getElement(pos: Int): MyElement{
+    fun getElement(pos: Int): History{
         return dataSet[pos]
     }
     private lateinit var itemClickListener : OnItemClickListener
@@ -27,14 +28,10 @@ class MyAdapter(private var dataSet: MutableList<MyElement>):RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val binding = (holder as MyViewHolder).binding
-        binding.alcType.text = dataSet[position].alcType
+        val binding = holder.binding
+        binding.date.text = dataSet[position].date
         binding.alcName.text = dataSet[position].alcName
-        binding.bottle.text = dataSet[position].bottle.toString()
-        binding.cup.text = dataSet[position].cup.toString()
-        binding.percent.text = dataSet[position].percent.toString()
-        binding.elem.setOnClickListener{
-            itemClickListener.onClick(it, position)
-        }
+        binding.drunk.text = dataSet[position].drunk.toString()+" ml"
+        binding.alcAmount.text = dataSet[position].alcAmount.toString()
     }
 }

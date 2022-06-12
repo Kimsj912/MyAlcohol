@@ -11,14 +11,27 @@
         android:theme="@style/Theme.LastProj_MP">
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustNothing"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddHistoryActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".MainActivity"
+        />
+        <activity
+            android:name=".ShowHistoryActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:parentActivityName=".MainActivity"
+        />
+        <activity
+            android:name=".EditAlcActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:parentActivityName=".MainActivity"
+        />
     </application>
 
 </manifest>

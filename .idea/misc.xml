@@ -4,8 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndStudy/2022MC/LastProj_MP/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/AndStudy/2022MC/LastProj_MP/app/src/main/res/layout/add_alc.xml" value="0.1" />
+        <entry key="..\:/AndStudy/2022MC/LastProj_MP/app/src/main/res/layout/add_history.xml" value="0.1" />
+        <entry key="..\:/AndStudy/2022MC/LastProj_MP/app/src/main/res/layout/compare_alc.xml" value="0.11141304347826086" />
+        <entry key="..\:/AndStudy/2022MC/LastProj_MP/app/src/main/res/layout/input_alc.xml" value="0.25" />
+        <entry key="..\:/AndStudy/2022MC/LastProj_MP/app/src/main/res/layout/input_history.xml" value="0.25" />
         <entry key="..\:/AndStudy/2022MC/LastProj_MP/app/src/main/res/layout/input_item.xml" value="0.1" />
+        <entry key="..\:/AndStudy/2022MC/LastProj_MP/app/src/main/res/layout/list_alc.xml" value="0.75" />
+        <entry key="..\:/AndStudy/2022MC/LastProj_MP/app/src/main/res/layout/list_history.xml" value="0.33" />
         <entry key="..\:/AndStudy/2022MC/LastProj_MP/app/src/main/res/layout/list_item.xml" value="0.25280898876404495" />
+        <entry key="..\:/AndStudy/2022MC/LastProj_MP/app/src/main/res/layout/show_history.xml" value="0.29286019666524155" />
         <entry key="..\:/myAndroid/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.11141304347826086" />
       </map>
     </option>

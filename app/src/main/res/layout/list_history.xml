@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/elem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="5dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10sp"
+            android:background="@color/soju_green"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_weight="2"
+            android:text="날짜" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:textSize="16sp"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10sp"
+            android:background="@color/soju_green"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_weight="2"
+
+            android:text="마신 술" />
+
+        <TextView
+            android:id="@+id/alc_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:textSize="16sp"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/soju_green"
+            android:textColor="@color/white"
+            android:paddingLeft="10sp"
+            android:textSize="16sp"
+            android:layout_weight="2"
+
+            android:text="마신 양(ml)" />
+
+        <TextView
+            android:id="@+id/drunk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:textSize="16sp"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/soju_green"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_weight="2"
+            android:paddingLeft="10sp"
+
+            android:text="알코올 섭취량" />
+
+        <TextView
+            android:id="@+id/alcAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+
+</LinearLayout>
